@@ -1,0 +1,30 @@
+1) MAIN SETUP
+
+1.1) LAYOUT
+In the beginning we will create the layout.
+Hence we have to add components to the app. After adding "Home.vue" and "Header.vue" to "Components", we create two folders
+within the Component-Folder, and call them "Portfolio" and "Stocks".
+Within Portfolio we add a "Portfolio.vue"-File and a "Stock.vue" file.
+Within Stocks we add a "Stocks.vue" and a "Stock.vue".
+After that we all add a template in each component.
+
+1.2) ROUTES
+Up next we create the routes.js-file in the src-folder. We need to import the components and then set up paths for each of them.
+But first we run the command "npm install --save vue-router" and import VueRouter in the main.js-file with
+"import VueRouter from 'vue-router';" and "Vue.use(VueRouter)".
+Next we go into the routes.js-file and import all files we want as routes.
+To use them we write:
+
+"export const routes = [
+    { path: '', component: },
+    ...
+];"
+
+After setting up the routes we go back to the main.js-file and import the routes to use them globally. For that we add
+"import { routes } from './src/routes'" and following we add below "Vue.use" a:
+"const router = new VueRouter({
+    mode: 'history',
+    router
+});".
+Before we save we subsequently add to the "new Vue"-Instance before "render" again "router,",
+since we named this constant "router" in the code above.
