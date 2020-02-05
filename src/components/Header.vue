@@ -18,6 +18,9 @@
             <a id="link">Stocks</a>
           </router-link>
         </li>
+        <li class="nav-link">
+          <a id="link"><strong>Funds: {{ funds }}</strong></a>
+        </li>
     </ul>
     <span class="navbar-text">
       <ul class="navbar-nav">
@@ -47,7 +50,12 @@
 
 <script>
 export default {
-  name: "Header"
+  name: "Header",
+  computed: {
+    funds() {
+      return this.$store.getters.funds;
+    }
+  }
 };
 </script>
 
