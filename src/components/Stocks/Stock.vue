@@ -1,20 +1,29 @@
 <template>
-<div class="row">
+  <div class="row">
     <div class="col-12 mb-4 justify-content-center d-flex">
-        <div class="card border border-success">
-          <div class="card-header bg-success">
-            {{ stock.name }}
-            <small>(Price: {{ stock.price }} )</small>
-          </div>
-          <div class="card-body">
-            <input type="number" class="form-control" placeholder="Quantity" v-model.number="quantity"/>
-            <br />
-            <button class="btn btn-success button" @click="buyStock"
-            :disabled="isDisabled">Buy</button>
-          </div>
+      <div class="card border border-success">
+        <div class="card-header bg-success">
+          {{ stock.name }}
+          <small>(Price: {{ stock.price }} )</small>
+        </div>
+        <div class="card-body">
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Quantity"
+            v-model.number="quantity"
+            :class="{danger: insufficientFunds}"
+          />
+          <br />
+          <button
+            class="btn btn-success button"
+            @click="buyStock"
+            :disabled="insufficientFunds || quantity <= 0 || isDisabled"
+          >{{ insufficientFunds ? 'Insufficient Funds' : 'Buy' }}</button>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -24,7 +33,7 @@ export default {
   data() {
     return {
       quantity: 0
-    }
+    };
   },
   methods: {
     buyStock() {
@@ -33,13 +42,19 @@ export default {
         stockPrice: this.stock.price,
         quantity: this.quantity
       };
-      this.$store.dispatch('buyStock', order);
+      this.$store.dispatch("buyStock", order);
       this.quantity = 0;
     }
   },
   computed: {
     isDisabled() {
-      return (this.quantity <= 0 || !Number.isInteger(this.quantity)) 
+      return this.quantity <= 0 || !Number.isInteger(this.quantity);
+    },
+    funds() {
+      return this.$store.getters.funds;
+    },
+    insufficientFunds() {
+      return this.quantity * this.stock.price > this.funds;
     }
   }
 };
@@ -47,6 +62,10 @@ export default {
 
 <style lang="scss" scoped>
 .card {
-    width: 600px;
+  width: 600px;
+}
+
+.danger {
+  border: 2px solid rgb(219, 28, 28);
 }
 </style>

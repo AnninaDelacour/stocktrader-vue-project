@@ -2,7 +2,7 @@
   <div>
     <h1>Trade or view your Portfolio</h1>
     <hr>
-    <p>Your funds: <span id="funds">{{ funds }}</span></p>
+    <p>Your funds: <span id="funds">{{ funds | currency }}</span></p>
     <hr>
     <h6>You may save and load your data</h6>
     <h6>Click on "End day" to begin a new day :)</h6>

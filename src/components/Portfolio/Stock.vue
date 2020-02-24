@@ -12,9 +12,14 @@
             class="form-control"
             placeholder="Quantity"
             v-model.number="quantity"
+            :class=" {danger: insufficientQuantity}"
           />
           <br />
-          <button class="btn btn-success button" @click="sellStock" :disabled="isDisabled">Sell</button>
+          <button
+            class="btn btn-success button"
+            @click="sellStock"
+            :disabled="insufficientQuantity || quantity <= 0 || isDisabled"
+          > {{ insufficientQuantity ? 'Not enough stocks' : 'Sell' }} </button>
         </div>
       </div>
     </div>
@@ -22,7 +27,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
   name: "PortfolioStock",
@@ -34,7 +39,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      placeSellOrder: 'sellStock'
+      placeSellOrder: "sellStock"
     }),
     sellStock() {
       const order = {
@@ -49,6 +54,9 @@ export default {
   computed: {
     isDisabled() {
       return this.quantity <= 0 || !Number.isInteger(this.quantity);
+    },
+    insufficientQuantity() {
+      return this.quantity > this.stock.quantity;
     }
   }
 };
@@ -57,5 +65,9 @@ export default {
 <style lang="scss" scoped>
 .card {
   width: 600px;
+}
+
+.danger {
+  border: 2px solid rgb(219, 28, 28);
 }
 </style>
