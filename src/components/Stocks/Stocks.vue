@@ -1,12 +1,11 @@
 <template>
-<div>
-  <Stock v-for="stock in stocks" :key="stock" :stock="stock"></Stock>
-</div>
+  <div>
+    <Stock v-for="stock in stocks" :key="stock" :stock="stock"></Stock>
+  </div>
 </template>
 
 <script>
-import Stock from './Stock';
-
+import Stock from "./Stock";
 
 export default {
   name: "Stocks",
@@ -21,6 +20,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

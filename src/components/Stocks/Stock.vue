@@ -1,8 +1,8 @@
 <template>
   <div class="row">
     <div class="col-12 mb-4 justify-content-center d-flex">
-      <div class="card border border-success">
-        <div class="card-header bg-success">
+      <div class="card border border-gold">
+        <div class="card-header bg-gold">
           {{ stock.name }}
           <small>(Price: {{ stock.price }} )</small>
         </div>
@@ -12,14 +12,16 @@
             class="form-control"
             placeholder="Quantity"
             v-model.number="quantity"
-            :class="{danger: insufficientFunds}"
+            :class="{ danger: insufficientFunds }"
           />
           <br />
           <button
-            class="btn btn-success button"
+            class="btn btn-gold button"
             @click="buyStock"
             :disabled="insufficientFunds || quantity <= 0 || isDisabled"
-          >{{ insufficientFunds ? 'Insufficient Funds' : 'Buy' }}</button>
+          >
+            {{ insufficientFunds ? "Insufficient Funds" : "Buy" }}
+          </button>
         </div>
       </div>
     </div>
@@ -67,5 +69,17 @@ export default {
 
 .danger {
   border: 2px solid rgb(219, 28, 28);
+}
+
+.border-gold {
+  border: 1px solid	#bca872;
+}
+
+.bg-gold {
+  background-color:	#bca872;
+}
+
+.btn-gold {
+  background-color:	#bca872;
 }
 </style>

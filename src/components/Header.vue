@@ -1,70 +1,55 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <router-link to="/">
-      <a id="brand">The Stock Trader</a>
-    </router-link>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarText"
-      aria-controls="navbarText"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-link">
-          <router-link to="/portfolio">
-            <a id="link">Portfolio</a>
-          </router-link>
-        </li>
-        <li class="nav-link">
-          <router-link to="/stocks" exact active-class="active">
-            <a id="link">Stocks</a>
-          </router-link>
-        </li>
-      </ul>
-      <span class="navbar-text">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="#" @click="endDay">End day</a>
-          </li>
+    <b-navbar toggleable="lg" type="dark" >
+      <b-navbar-brand>
+        <router-link to="/">
+          <a id="brand">The Stock Trader</a>
+        </router-link>
+      </b-navbar-brand>
 
-          <!-- <li
-            class="dropdown"
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item>
+            <router-link to="/portfolio">
+              <a id="link">Portfolio</a>
+            </router-link>
+          </b-nav-item>
+          <b-nav-item>
+            <router-link to="/stocks" exact>
+              <a id="link">Stocks</a>
+            </router-link>
+          </b-nav-item>
+        </b-navbar-nav>
+
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item class="mt-2 funds">
+            <strong>Funds: {{ funds | currency }}</strong>
+          </b-nav-item>
+          <b-nav-item href="#">
+            <strong>
+              <a class="nav-link" href="#" @click="endDay">End day</a>
+            </strong>
+          </b-nav-item>
+
+          <b-dropdown
+            id="dropdown"
+            text="Save & Load"
+            variant="warning"
+            class="m-md-2"
             :class="{ open: isDropdownOpen }"
             @click="isDropdownOpen = !isDropdownOpen"
           >
-            <a
-              class="nav-link dropdown-toggle"
-              data-toggle="dropdown"
-              href="#"
-              role="button"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >Save & Load</a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Save data</a>
-              <a class="dropdown-item" href="#">Load data</a>
-            </div>
-          </li>-->
-
-          <li class="nav-link">
-            <a id="link">
-              <strong>Funds: {{ funds | currency }}</strong>
-            </a>
-          </li>
-        </ul>
-        <b-dropdown text="Save & Load">
-          <b-dropdown-item href="#">Save data</b-dropdown-item>
-          <b-dropdown-item href="#">Load data</b-dropdown-item>
-        </b-dropdown>
-      </span>
-    </div>
-  </nav>
+            <b-dropdown-item>
+              <a href="#" class="dropdown-link" @click="saveData">Save data</a>
+            </b-dropdown-item>
+            <b-dropdown-item>
+              <a href="#" class="dropdown-link" @click="loadData">Load data</a>
+            </b-dropdown-item>
+          </b-dropdown>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
 </template>
 
 <script>
@@ -83,9 +68,23 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["randomizeStocks"]),
+    ...mapActions({
+      randomizeStocks: "randomizeStocks",
+      fetchData: "loadData"
+    }),
     endDay() {
       this.randomizeStocks();
+    },
+    saveData() {
+      const data = {
+        funds: this.$store.getters.funds,
+        stockPortfolio: this.$store.getters.stockPortfolio,
+        stocks: this.$store.getters.stocks
+      };
+      this.$http.put("data.json", data);
+    },
+    loadData() {
+      this.fetchData();
     }
   }
 };
@@ -98,15 +97,32 @@ a {
   }
 
   #brand {
-    color: orange;
+    color: #f2ce76;
     text-transform: uppercase;
   }
 }
 
-.b-dropdown {
-  background-color: black;
+.navbar-text {
+  color: #fff;
+
   a {
-    color: #111;
+    color: #fff;
+  }
 }
+
+.dropdown-link {
+    color: black;
+    }
+
+
+.nav-item {
+  color: white;
 }
+
+.container-fluid {
+  max-width: 100vw !important;
+}
+
+
+
 </style>

@@ -1,10 +1,12 @@
 <template>
-  <div class="row">
+  
     <div class="col-12 mb-4 justify-content-center d-flex">
-      <div class="card border border-success">
-        <div class="card-header bg-success">
+      <div class="card border border-gold">
+        <div class="card-header bg-gold">
           {{ stock.name }}
-          <small>(Price: {{ stock.price }} | Quantity: {{ stock.quantity }} )</small>
+          <small
+            >(Price: {{ stock.price }} | Quantity: {{ stock.quantity }} )</small
+          >
         </div>
         <div class="card-body">
           <input
@@ -12,18 +14,20 @@
             class="form-control"
             placeholder="Quantity"
             v-model.number="quantity"
-            :class=" {danger: insufficientQuantity}"
+            :class="{ danger: insufficientQuantity }"
           />
           <br />
           <button
-            class="btn btn-success button"
+            class="btn btn-gold button"
             @click="sellStock"
             :disabled="insufficientQuantity || quantity <= 0 || isDisabled"
-          > {{ insufficientQuantity ? 'Not enough stocks' : 'Sell' }} </button>
+          >
+            {{ insufficientQuantity ? "Not enough stocks" : "Sell" }}
+          </button>
         </div>
       </div>
     </div>
-  </div>
+  
 </template>
 
 <script>
@@ -69,5 +73,17 @@ export default {
 
 .danger {
   border: 2px solid rgb(219, 28, 28);
+}
+
+.bg-gold {
+  background-color:	#bca872;
+}
+
+.border {
+  border: 1px solid#bca872;
+}
+
+.btn-gold {
+  background-color: #bca872;
 }
 </style>
